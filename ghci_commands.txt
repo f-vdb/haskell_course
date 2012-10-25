@@ -1,0 +1,23 @@
+
+start shell
+===========
+$ ghci
+
+
+change prompt
+=============
+prelude> :set prompt "ghci> "
+
+
+load module Data.Ratio which let us work with rational numbers into ghci
+========================================================================
+prelude> :module + Data.Ratio
+
+prompt will change to
+Prelude Data.Ratio >
+
+
+
+
+
+
