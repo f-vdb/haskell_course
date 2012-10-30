@@ -58,6 +58,28 @@ False
 ghci> 1 + 4 * 2
 9
 
+First Function
+==============
+ghci> let myDoubleFunction x = x + x
+ghci> myDoubleFunction 5
+10
+ghci> :t myDoubleFunction
+myDoubleFunction :: Num a => a -> a
+
+myDoubleFunction ist eine Funktion (in Haskell ist alles eine Funktion),
+                 für a vom Typ Num welche ein a nimmt und ein a zurück gibt.
+
+
+Remember:
+f ist eine Funktion die nen integer nimmt, und eine Funktion zurück gibt
+die nen integer nimmt und einen intege zurück gibt. 
+f :: integer -> integer  -> integer
+=
+f :: integer -> (integer -> interger)  rechtsassoziativ
+
+bar (bar 3)
+Rufe die Funktion bar mit 3 auf, mit dem Rückgabewert wird nochmal die Funktion bar aufgerufen
+
 Operator Precedence and Associativity
 =====================================
 
@@ -72,6 +94,48 @@ ghci> :info (^)
 
 ghci> :info (+)
 
+Am Typ der Funktion gepaart mit dem Namen der Funktion,
+   kann man meist schon erkennen, was die Funktion tut.
+
+ghci> :t map
+map :: (a -> b) -> [a] -> [b]
+map ist eine Funtkion die ein a und ein b nimmt (a -> b), ein Liste von a's [a]
+und eine Liste von b's [b] zurück gibt
+ghci> let f n = n * 2
+ghci> let lst = [1,2,3]
+ghci> map f lst 
+[2,4,6]
+
+sort ist in Modul Data.List
+ghci> :m Data.List
+ghci> :t sort
+sort :: Ord a => [a] -> [a]
+sort ist eine Funktion die eine Liste von a's [a] nimmt und eine Liste von a's [a] liefert
+a muss eine Ordnung haben
+
+ghci> let lst = [1,3,5,8,2,4,7,6,9,0]
+ghci> sort lst
+[0,1,2,3,4,5,6,7,8,9,0]
+
+
+Eine eigene Funktion in ghci einbinden
+======================================
+packe die in die Datei myFactorial_01.hs
+(hier wird pattern-matching genutzt:
+ 1 Fall: wenn n = 1
+ 2 Fall: sonst (default)
+
+fac :: Integer -> Integer
+fac 1 = 1
+fac n = n * fac (n - 1)
+
+dann Datein laden in ghci
+ghci>:l myFactorial_01.hs
+ghci> fac 4
+24
+ghci> let lst = [1,2,3,4,5]
+ghci> map fac lst
+[1,2,6,24,120]
 
 
 
