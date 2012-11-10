@@ -1,6 +1,28 @@
+install haskell on debian
+=========================
+apt-get install ghc ghc-prof cabal-install
 
-start shell
-===========
+
+webframework Yesod
+==================
+cabal update && cabal install -p yesod-platform
+
+if you want profiling install all packages with the -p option
+
+
+best practice
+=============
+Define some functions in a script, e.g. myfunctions.hs,
+then load these functions into ghci by typing :l myfunctions.
+If you change the .hs script, run :l myfunctions again or run :r,
+which reloads the current scipt.
+Or you can just type into your terminal: ghci myfunction.hs.
+Or you compile your script/programm with
+ghci --make -o test.bin test.hs 
+
+
+Now, let the games begin
+========================
 $ ghci
 
 
@@ -58,17 +80,54 @@ False
 ghci> 1 + 4 * 2
 9
 
+
+calling functions
+=================
+
+infix
+=====
+ghci> 9 `min` 10
+9
+
+prefix
+======
+ghci> min 9 10
+9
+
+Funcition application has the highest prcedence of all operations.
+
+ghci> succ 9 + max 5 4 + 1
+16
+
+ghci> (succ 9) + (max 5 4) + 1
+16
+
+ghci> succ 9 * 10
+100
+
+ghci> succ (succ 9)
+11
+
+ghci> succ $ succ 9
+11
+
+The dollar sign saves us parantheses.
+
+ghci> min (min 9 10) (min 3 2)
+2
+
+
 First Function
 ==============
 ghci> let myDoubleFunction x = x + x
 ghci> myDoubleFunction 5
 10
+
 ghci> :t myDoubleFunction
 myDoubleFunction :: Num a => a -> a
 
-myDoubleFunction ist eine Funktion (in Haskell ist alles eine Funktion),
-                 für a vom Typ Num welche ein a nimmt und ein a zurück gibt.
-
+myDoubleFunction is a function that takes an a and return an a, 
+in which a is type Num.
 
 Remember:
 f ist eine Funktion die nen integer nimmt, und eine Funktion zurück gibt
@@ -77,8 +136,21 @@ f :: integer -> integer  -> integer
 =
 f :: integer -> (integer -> interger)  rechtsassoziativ
 
-bar (bar 3)
-Rufe die Funktion bar mit 3 auf, mit dem Rückgabewert wird nochmal die Funktion bar aufgerufen
+
+ghci>let doubleUs x y = myDoubleFunction x + myDoubleFunction y
+ghci> doubleUs 4 5
+18
+
+ghci>let doubleSmallNumbers x = if x > 100
+                                   then x
+                                   else x*2
+
+The else part is mandatory.
+In Haskell the if is an expression that must return a value,
+and not a statement.
+Expression: is something that returns a value e.g. 1 + 2 * foo.bar()
+Statement: returns no value e.g x = x + 5 or goto 100
+
 
 Operator Precedence and Associativity
 =====================================
@@ -118,24 +190,196 @@ ghci> sort lst
 [0,1,2,3,4,5,6,7,8,9,0]
 
 
-Eine eigene Funktion in ghci einbinden
-======================================
-packe die in die Datei myFactorial_01.hs
-(hier wird pattern-matching genutzt:
- 1 Fall: wenn n = 1
- 2 Fall: sonst (default)
+Concatenation
+=============
 
-fac :: Integer -> Integer
-fac 1 = 1
-fac n = n * fac (n - 1)
+[1,2,3] ++ [4,5,6]
+[1,2,3,4,5,6]
 
-dann Datein laden in ghci
-ghci>:l myFactorial_01.hs
-ghci> fac 4
-24
-ghci> let lst = [1,2,3,4,5]
-ghci> map fac lst
-[1,2,6,24,120]
+Adding something at the beginning use the cons operator :
+5:[1,2,3]
+[5,1,2,3]
+
+
+Accesing a list
+===============
+"Hello World" !! 2
+'l'
+
+[1,2,3,4,5,6] !! 1
+2
+
+
+List inside Lists
+=================
+let ll = [[1,2],[1,2,3],[5,6,7]] 
+ll ++ [[1,1,1]]
+[[1,2],[1,2,3],[5,6,7],[1,1,1]] 
+
+List within list can be of different lengths, but they can't 
+be on different types.
+
+
+head
+====
+head [1,2,3]
+1
+
+tail
+====
+tail [1,2,3]
+[2,3]
+
+last
+====
+last [1,2,3]
+3
+
+init
+====
+init [1,2,3]
+[1,2]
+
+length
+======
+length [1,2,3]
+3
+
+null
+====
+null [1,2,3]
+False
+
+null []
+True
+
+reverse
+=======
+reverse [1,2,3]
+[3,2,1]
+
+take
+====
+take 2 [1,2,3]
+[1,2]
+take 1 [1,2,3]
+1
+
+drop
+====
+drop 2 [1,2,3]
+[3]
+
+maximum
+=======
+maximum [1,2,3]
+3
+
+minimium
+========
+minimium [1,2,3]
+1
+
+sum
+===
+
+product
+=======
+
+elem
+====
+2 `elem` [1,2,3]
+True
+elem 2 [1,2,3]
+True
+elem 10 [1,2,3]
+False
+
+Ranges
+======
+[1..10]
+[1,2,3,4,5,6,7,8,9,10]
+
+['a'..'z']
+['a','b','c' ...... 'z']
+
+['a'..'z']++['A'..'Z']
+
+[20,19..0]
+[20,19,18,17,16,15 ..... 0]
+
+endless list
+[0,1..]
+
+take 100 [1..]
+
+take 100 [13,26..24*13]
+
+take 10 (cycle [1,2,3])
+[1,2,3,1,2,3,1,2,3,1]
+
+take 2 (cycle "COOL")
+["COOL","COOL"]
+
+take 4 (repeat 5)
+[5,5,5,5]
+
+shorter
+replicate 3 10
+[10,10,10]
+
+List Comprehension I like it in every language
+==================
+
+[x*2 | x <- [1..10]]
+[2,4,6,8,10,12,14,16,18,20]
+
+[x*2 | x <- [1..10], x*2 >= 12]
+[12,14,16,18,20]
+
+[x | x <- [10..20], x /= 13, x/= 15, x /= 19]
+[10,11,12,14,16,17,18,20]
+
+let myBoom xs = [if x < 10 then "BOOM!" else "BANG!" | x <- xs, odd x]
+myBoom [1..15]
+["BOOM!","BOOM!","BOOM!","BOOM!","BOOM!","BANG!","BANG!","BANG!"]
+
+
+This is cool
+[x+y | x <- [1,2,3], y <- [10,100,1000]]
+[11,101,1001,12,102,1002,13,103,1003]
+
+
+This function will replace every element in a list with 1,
+then add them all up with sum, yielding the length of the list.
+
+The underscore (_) is used as a temporary variable to store the items.
+We don't care about the values.
+
+let myLength xs = sum[1 | _ <- xs]
+myLength [1..10]
+10
+
+
+let xxs = [[1,3,5,7],[1,2,3,4],[7,8,9,10]]
+[ [x | x <- xs, even x] | xs <- xxs]
+[[],[2,4],[8,10]]
+
+let lA = [1,2,3]
+let lB = [2,3,4]
+[x * y | x <- lA, y <- lB]
+[2,3,4,4,6,8,6,9,12]
+
+let fun xs ys = [x * y | x <- xs, y <- ys]
+
+
+Tuples
+======
+
+
+
+
+
 
 
 
