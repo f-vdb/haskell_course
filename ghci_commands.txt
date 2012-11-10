@@ -29,6 +29,8 @@ $ ghci
 change prompt
 =============
 prelude> :set prompt "ghci> "
+or
+touch .ghci && echo ':set prompt "ghci> "' >> .ghci
 
 
 load module Data.Ratio which let us work with rational numbers into ghci
@@ -375,6 +377,40 @@ let fun xs ys = [x * y | x <- xs, y <- ys]
 
 Tuples
 ======
+Tuples are hetrogeneous and they have a fixed size.
+
+ghci>(1,3)
+(1,3)
+
+ghci>(2, 'a', "hello")
+(2,'a',"hello")
+
+ghci>let t = [(1,2),(3,4)]
+ghci> t
+[(1,2),(3,4)]
+
+ghci>t ++ [(1,2,3)]
+this is an error
+but
+
+ghci> t ++ [(4,4)]
+
+ghci>fst (8,9)
+8
+
+ghci>snd (8,9)
+9
+
+ZIP sp cool
+===========
+
+ghci>zip [1..5] $ take 5 $ repeat 5
+or
+ghci>zip [1..5] (take 5 (reapeat 5))
+[(1,5),(2,5),(3,5),(4,5),(5,5)]
+
+ghci> zip [1..5] ["one","two","three","four","five"]
+[(1,"one"),(2,"two"),(3,"three"),(4,"four"),(5,"five")]
 
 
 
@@ -392,3 +428,36 @@ Tuples
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wSo cool ZI
