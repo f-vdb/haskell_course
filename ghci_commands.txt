@@ -151,6 +151,7 @@ The else part is mandatory.
 In Haskell the if is an expression that must return a value,
 and not a statement.
 Expression: is something that returns a value e.g. 1 + 2 * foo.bar()
+            and an Expression has a type such as Bool or String
 Statement: returns no value e.g x = x + 5 or goto 100
 
 
@@ -242,6 +243,16 @@ init
 init [1,2,3]
 [1,2]
 
+
+
+ head       tail
+ _______________________
+|    |                 |
+  x   x x x x x x   x
+|________________|_____|
+      init        last
+
+
 length
 ======
 length [1,2,3]
@@ -284,14 +295,22 @@ minimium [1,2,3]
 
 sum
 ===
+sum [1,2,3]
+6
 
 product
 =======
+product [2,2,3]
+12
+product [1,2,3,4,0]
+0
 
 elem
 ====
+infix
 2 `elem` [1,2,3]
 True
+prefix
 elem 2 [1,2,3]
 True
 elem 10 [1,2,3]
@@ -336,8 +355,11 @@ List Comprehension I like it in every language
 [x*2 | x <- [1..10]]
 [2,4,6,8,10,12,14,16,18,20]
 
+ out   bind          predicate
 [x*2 | x <- [1..10], x*2 >= 12]
 [12,14,16,18,20]
+
+/= means dissimilar
 
 [x | x <- [10..20], x /= 13, x/= 15, x /= 19]
 [10,11,12,14,16,17,18,20]
@@ -351,6 +373,20 @@ This is cool
 [x+y | x <- [1,2,3], y <- [10,100,1000]]
 [11,101,1001,12,102,1002,13,103,1003]
 
+[x*y | x <- [2,5,10], y <- [8,10,11], x*y > 50]
+[55,80,100,110]
+
+removeNonUppercase st = [ c | c <- st, c `elem` ['A'..'Z']]
+removeNonUppercase "Hahaha! Ahaha"
+"HA"
+
+
+
+
+let nouns = ["house", "boat", "flower"]
+let adjectives = ["flying", "lazy"]
+[adjective ++ " " noun | adjective <- adjectives, noun <- nouns]
+
 
 This function will replace every element in a list with 1,
 then add them all up with sum, yielding the length of the list.
@@ -362,7 +398,7 @@ let myLength xs = sum[1 | _ <- xs]
 myLength [1..10]
 10
 
-
+rightside associative
 let xxs = [[1,3,5,7],[1,2,3,4],[7,8,9,10]]
 [ [x | x <- xs, even x] | xs <- xxs]
 [[],[2,4],[8,10]]
