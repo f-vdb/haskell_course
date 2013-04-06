@@ -9,6 +9,13 @@ cabal update && cabal install -p yesod-platform
 
 if you want profiling install all packages with the -p option
 
+where to find help
+==================
+hayoo!          haskell api search
+hoogle          haskell api search
+
+haskell-cafe mailing list
+
 
 best practice
 =============

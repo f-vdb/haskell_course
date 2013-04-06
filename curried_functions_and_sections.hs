@@ -32,3 +32,10 @@ divideByTen a = a / 10
 divideByTen :: (Floating a) => a -> a
 divideByTen = (/10)
 
+
+addByTen :: (Floating a) => a -> a
+addByTen = (+10)
+
+addByTen' :: (Floating a) => a -> a
+addByTen' = (10+)
+-- no matter if the + stand for or behind the value
